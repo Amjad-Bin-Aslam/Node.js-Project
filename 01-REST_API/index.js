@@ -9,9 +9,10 @@ const app = express();
 app.use(express.urlencoded({ extended: false }))
 
 app.use((req , res , next) => {
-    fs.appendFile('log.txt' , `${Date.now()}: ${req.method}: ${req.path}` , (err , data) => {
-        next();
-    });
+    console.log(req.headers)
+    // custom Header
+     res.setHeader("X-MyName" , "Amjad")
+     return res.json(users)
 });
 
 
