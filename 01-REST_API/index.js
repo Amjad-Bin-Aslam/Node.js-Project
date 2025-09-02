@@ -8,12 +8,12 @@ const app = express();
 // Middleware - Plugin
 app.use(express.urlencoded({ extended: false }))
 
-app.use((req , res , next) => {
-    console.log(req.headers)
-    // custom Header
-     res.setHeader("X-MyName" , "Amjad")
-     return res.json(users)
-});
+// app.use((req , res , next) => {
+//     console.log(req.headers)
+//     // custom Header
+//     //  res.setHeader("X-MyName" , "Amjad")
+//     //  return res.json(users)
+// });
 
 
 app.get('/users' , (req , res) => {
@@ -68,7 +68,7 @@ app.post('/api/users' , (req , res) => {
     const body = req.body;
     users.push({...body , id:users.length + 1});
     fs.writeFile("./MOCK_DATA.json" , JSON.stringify(users) , (err , data) => {
-        return res.json({status: "success"})
+        return res.status(201).json({status: "success"})
     })
     
 })
