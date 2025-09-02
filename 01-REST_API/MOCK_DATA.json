@@ -1,21 +1,5 @@
 [
     {
-        "id": 1,
-        "first_name": "Otes",
-        "last_name": "Megarry",
-        "email": "omegarry0@geocities.jp",
-        "gender": "Male",
-        "job_title": "Quality Engineer"
-    },
-    {
-        "id": 2,
-        "first_name": "Jana",
-        "last_name": "Burhouse",
-        "email": "jburhouse1@meetup.com",
-        "gender": "Female",
-        "job_title": "Software Engineer III"
-    },
-    {
         "id": 3,
         "first_name": "Washington",
         "last_name": "Steeden",
@@ -7998,5 +7982,37 @@
         "email": "thallidayrr@prlog.org",
         "gender": "Male",
         "job_title": "Editor"
+    },
+    {
+        "first_name": "zain",
+        "last_name": "khan",
+        "email": "zain@gmail.com",
+        "gender": "male",
+        "job_title": "Software Engineer",
+        "id": 1001
+    },
+    {
+        "first_name": "zain",
+        "last_name": "khan",
+        "email": "zain@gmail.com",
+        "gender": "male",
+        "job_title": "Software Engineer",
+        "id": 1002
+    },
+    {
+        "first_name": "zain",
+        "last_name": "khan",
+        "email": "zain@gmail.com",
+        "gender": "male",
+        "job_title": "Software Engineer",
+        "id": 1003
+    },
+    {
+        "first_name": "zain",
+        "last_name": "khan",
+        "email": "zain@gmail.com",
+        "gender": "male",
+        "job_title": "Software Engineer",
+        "id": 1004
     }
 ]
