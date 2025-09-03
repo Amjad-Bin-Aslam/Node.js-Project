@@ -1,9 +1,47 @@
 const express =  require('express')
 const fs = require("fs")
-const users = require("./MOCK_DATA.json")
+// const users = require("./MOCK_DATA.json")
+const mongoose = require("mongoose");
+const { type } = require('os');
+const { stringify } = require('querystring');
 
 const PORT = 8000;
 const app = express();
+
+//connection
+mongoose.connect("mongodb://127.0.0.1:27017/Practice")
+.then(() => console.log("MongoDB Connected"))
+.catch((err) => console.log("Mongo Error: " , err));
+
+
+// schema
+const userSchema =  new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    jobTitle: {
+        type: String
+    },
+    gender: {
+        type: String
+    },
+
+    
+} ,
+ { timestamps: true}
+);
+
+const User = mongoose.model("user" , userSchema);
+
 
 // Middleware - Plugin
 app.use(express.urlencoded({ extended: false }))
@@ -16,54 +54,45 @@ app.use(express.urlencoded({ extended: false }))
 // });
 
 
-app.get('/users' , (req , res) => {
+app.get('/users' , async (req , res) => {
+    const allDBUsers = await User.find({})
     const html = `
         <ul>
-            ${users.map((users) => `<li>${users.first_name}</li>`).join("")}
+            ${allDBUsers.map((users) => `<li>${users.firstName} - ${users.email}</li>`).join("")}
         </ul>
     `;
     res.send(html)
 })
 
 // Routes
-app.get('/api/users' , (req , res) => {
-    return res.json(users)
+app.get('/api/users' , async (req , res) => {
+    const allDBUsers = await User.find({})
+    return res.json(allDBUsers)
 })
 
 app.route("/api/users/:id")
-.get((req , res) => {
-    const id =Number(req.params.id)
-    const user = users.filter((user) => user.id === id)
+.get(async (req , res) => {
+    const user = await User.findById(req.params.id);
     if(!user){
         return res.status(404).json({error: "User not found"})
         // res.send("user not found")
     }
     return res.json(user)
 })
-.patch((req , res) => {
-    //Edit user(
-    res.json({status: "pending"})
+.patch( async (req , res) => {
+    //Edit user
+    await User.findByIdAndUpdate(req.params.id , { lastName: "Changed"});
+    res.json({status: "success"})
 })
-.delete((req , res) => {
+.delete(async (req , res) => {
     //Delete user
-    const id = Number(req.params.id)
-    const user = users.findIndex((user) => user.id  === id)
-    if(user === -1){
-        return res.status(404).json({status: "error" , message: "user not found"})
-    }
-
-    users.splice(user ,  1);
-
-    fs.writeFile("./MOCK_DATA.json" , JSON.stringify(users) , (err) => {
-        if(err){
-            return res.status.json({status: "error" , message: "Failed to delete user"})
-        }
-        return res.json({status: "Success" , message: "User Deleted successfully"})
-    });
+    await User.findByIdAndDelete(req.params.id)
+    
+    return res.json({status: "Success"})
     
 });
 
-app.post('/api/users' , (req , res) => {
+app.post('/api/users' , async (req , res) => {
     // Create user
     const body = req.body;
     if(!body ||
@@ -72,13 +101,20 @@ app.post('/api/users' , (req , res) => {
        !body.email ||
        !body.gender ||
        !body.job_title
-    ){
+    )
+    {
         return res.status(400).json({message: "All fields are required."})
     }
-    users.push({...body , id:users.length + 1});
-    fs.writeFile("./MOCK_DATA.json" , JSON.stringify(users) , (err , data) => {
-        return res.status(201).json({status: "success"})
-    })
+
+    const result = await User.create( {
+        firstName: body.first_name,
+        lastName: body.last_name,
+        email: body.email,
+        gender: body.gender,
+        jobTitle: body.job_title,
+    });
+    
+    return res.status(201).json({ msg: "Success"})
     
 })
 
