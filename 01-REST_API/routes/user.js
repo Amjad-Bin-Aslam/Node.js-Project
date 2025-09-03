@@ -1,0 +1,26 @@
+const express = require("express") 
+const {
+    handleGetAllUsers,
+    handleGetUserById,
+    handleUpdateUserById,
+    handleDeleteUserById,
+    handleCreateNewUser
+} = require('../controllers/user')
+
+
+// used to make the routes {get , post , delete etc} to manipulate the Database
+const router = express.Router();
+
+
+// Routes
+router.route('/')
+.get(handleGetAllUsers)
+.post(handleCreateNewUser)
+
+router.route("/:id")
+.get(handleGetUserById)
+.patch(handleUpdateUserById)
+.delete(handleDeleteUserById);
+
+
+module.exports = router

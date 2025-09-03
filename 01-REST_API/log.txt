@@ -1,2 +1,23 @@
 1756809759324: GET: /api/users/7
 1756820603235: GET: /api/users/7
+ 1756921491228:::1 GET: /
+
+ 1756921492327:::1 GET: /
+
+ 1756921508202:::1 GET: /users
+
+ 1756921514565:::1 GET: /
+
+ 1756922276451:::1 POST: /api/users
+
+ 1756922489539:::1 POST: /api/users
+
+ 1756922508049:::1 POST: /api/users
+
+ 1756922532678:::1 POST: /api/users
+
+ 1756922566157:::1 GET: /api/users
+
+ 1756922566316:::1 GET: /favicon.ico
+
+ 1756922573686:::1 GET: /api/users/68b882a48f43e6976ec9e0aa
